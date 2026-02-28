@@ -9,6 +9,14 @@ variable "db_config" {
   })
 }
 
+variable "KKE_DB_USERNAME"{
+  type = string
+}
+
+variable "KKE_DB_PASSWORD"{
+  type = string
+}
+
 // ==== SUBNET GROUP ====
 
 variable "KKE_SUBNET_GROUP_NAME" {

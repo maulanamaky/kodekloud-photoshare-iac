@@ -11,7 +11,7 @@ resource "aws_db_subnet_group" "db" {
 
 // ===== RDS =====
 
-resource "aws_db_instance" "default" {
+resource "aws_db_instance" "rds_mysql" {
   identifier     = var.db_config.identifier
   db_name        = var.db_config.name
   engine         = "mysql"
