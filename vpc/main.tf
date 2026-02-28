@@ -10,8 +10,8 @@ resource "aws_subnet" "subnet" {
 
   for_each = var.KKE_SUBNET
 
-  vpc_id     = aws_vpc.photoshare_vpc.id
-  cidr_block = each.value.cidr
+  vpc_id            = aws_vpc.photoshare_vpc.id
+  cidr_block        = each.value.cidr
   availability_zone = each.value.region
 
   map_public_ip_on_launch = each.value.public
