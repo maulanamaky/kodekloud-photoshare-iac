@@ -77,6 +77,8 @@ module "ec2" {
   ec2_role = module.iam.ec2_role
   alb_sg_id = module.alb.alb_sg_id
   vpc_id = module.vpc.vpc_id
+
+  public_subnet_ids = module.vpc.public_subnet_ids
 }
 
 module "lambda" {
