@@ -12,6 +12,14 @@ variable "ec2_sg_name"{
     default = "photoshare-web-sg"
 }
 
+variable "key_name"{
+    type = string
+}
+
+variable "public_subnet_ids"{
+    type = list(string)
+}
+
 variable "s3_bucket_name"{
     type = string
 }
