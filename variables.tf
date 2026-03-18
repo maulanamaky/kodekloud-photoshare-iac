@@ -6,8 +6,6 @@ variable "subnet_list" {
   }))
 }
 
-
-
 // === SECRET MANAGER ===
 
 variable "db_username" {
@@ -18,4 +16,11 @@ variable "db_username" {
 variable "db_password" {
   type = string
   sensitive = true
+}
+
+// === EC2 ===
+
+variable "key_name"{
+  type = string
+  default = "the-key"
 }

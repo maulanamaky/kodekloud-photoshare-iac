@@ -24,9 +24,9 @@ resource "aws_iam_role_policy_attachment" "s3_full_access" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
-resource "aws_iam_role_policy_attachment" "role_ec2_attach" {
+resource "aws_iam_role_policy_attachment" "ec2_read_attach" {
   role       = aws_iam_role.ec2.name
-  policy_arn = "arn:aws:iam::aws:policy/AWSSecretManagerClientReadOnlyAccess"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
 }
 
 
@@ -51,12 +51,12 @@ resource "aws_iam_role" "lambda" {
 
 }
 
-resource "aws_iam_role_policy_attachment" "role_lambda_attach" {
+resource "aws_iam_role_policy_attachment" "s3_full_attach" {
   role       = aws_iam_role.lambda.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
-resource "aws_iam_role_policy_attachment" "role_lambda_attach" {
+resource "aws_iam_role_policy_attachment" "lambda_basic_attach" {
   role       = aws_iam_role.lambda.name
-  policy_arn = "arn:aws:iam::aws:policy/AWSLambdaBasicExecutionRole"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }

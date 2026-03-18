@@ -46,7 +46,7 @@ module "secretmanager" {
 
   sm_config = {
     engine = "mysql",
-    host = module.rds_db_address,
+    host = module.rds.rds_db_address,
     port = 3306,
     dbname = module.rds.rds_db_initial
   }
@@ -77,6 +77,9 @@ module "ec2" {
   ec2_role = module.iam.ec2_role
   alb_sg_id = module.alb.alb_sg_id
   vpc_id = module.vpc.vpc_id
+
+  key_name = var.key_name
+
 
   public_subnet_ids = module.vpc.public_subnet_ids
 }

@@ -6,7 +6,7 @@ resource "aws_lb" "photoshare_alb" {
   subnets            = var.public_subnet_ids
   ip_address_type = "ipv4"
 
-  enable_deletion_protection = true
+  enable_deletion_protection = false
 
   tags = {
     Name = var.alb_config.alb_name

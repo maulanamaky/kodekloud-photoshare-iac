@@ -6,19 +6,19 @@ variable "alb_config"{
     }
 }
 
-variabel "alb_sg_name"{
+variable "alb_sg_name"{
     type = string
     default = "photoshare-sg"
 }
 
-variabel "vpc_id" {
+variable "vpc_id" {
     type = string
 }
 
-variabel "public_subnet_ids" {
+variable "public_subnet_ids" {
     type = list(string)
 }
 
-variabel "instance_id" {
+variable "instance_id" {
     type = string
 }

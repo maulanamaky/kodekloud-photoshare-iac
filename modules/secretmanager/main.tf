@@ -1,12 +1,7 @@
-data "aws_kms_alias" "secretsmanager" {
-  name = "alias/aws/secretsmanager"
-}
-
 resource "aws_secretsmanager_secret" "photoshare_sm" {
   name = var.sm_name
   description = "Database Credentials for PhotoSharing App"
 
-  kms_key_id = data.aws_kms_alias.secretsmanager.arn
 }
 
 resource "aws_secretsmanager_secret_version" "sm_version" {

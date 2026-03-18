@@ -6,7 +6,7 @@ output "private_subnet_ids"{
     value = [for k, v in aws_subnet.subnet : v.id if var.subnet_list[k].public == false]
 }
 
-output "private_subnet_ids"{
+output "public_subnet_ids"{
     value = [for k, v in aws_subnet.subnet : v.id if var.subnet_list[k].public == true]
 }
 
