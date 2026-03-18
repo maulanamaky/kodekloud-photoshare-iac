@@ -8,7 +8,7 @@ resource "aws_instance" "photoshare_web" {
   associate_public_ip_address = true
   user_data_replace_on_change = true
 
-  key_name = var.key_name
+  key_name = aws_key_pair.ec2_key.key_name
 
   tags = {
     Name = var.ec2_config.name
@@ -21,9 +21,12 @@ resource "aws_instance" "photoshare_web" {
 
 }
 
-
-
 resource "aws_iam_instance_profile" "ec2-profile" {
   name = "ec2-role-profile"
   role = var.ec2_role
+}
+
+resource "aws_key_pair" "ec2_key" {
+  key_name   = var.key_pair_name
+  public_key = var.pub_key
 }

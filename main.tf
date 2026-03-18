@@ -43,7 +43,7 @@ module "secretmanager" {
   source = "./modules/secretmanager"
 
   sm_name = "photoshare/db/credentials"
-
+  recovery_window = 0
   sm_config = {
     engine = "mysql",
     host = module.rds.rds_db_address,
@@ -77,8 +77,8 @@ module "ec2" {
   ec2_role = module.iam.ec2_role
   alb_sg_id = module.alb.alb_sg_id
   vpc_id = module.vpc.vpc_id
-
-  key_name = var.key_name
+  pub_key = var.pub_key
+  key_pair_name = var.key_pair_name
 
 
   public_subnet_ids = module.vpc.public_subnet_ids

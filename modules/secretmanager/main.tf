@@ -2,6 +2,7 @@ resource "aws_secretsmanager_secret" "photoshare_sm" {
   name = var.sm_name
   description = "Database Credentials for PhotoSharing App"
 
+  recovery_window_in_days = var.recovery_window
 }
 
 resource "aws_secretsmanager_secret_version" "sm_version" {

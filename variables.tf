@@ -20,7 +20,12 @@ variable "db_password" {
 
 // === EC2 ===
 
-variable "key_name"{
+variable "key_pair_name"{
   type = string
-  default = "the-key"
+  default = "photoshare-key"
+}
+
+variable "pub_key"{
+  type = string
+  sensitive = true
 }

@@ -12,8 +12,13 @@ variable "ec2_sg_name"{
     default = "photoshare-web-sg"
 }
 
-variable "key_name"{
+variable "key_pair_name"{
     type = string
+}
+
+variable "pub_key"{
+  type = string
+  default = "Paste the public code here"
 }
 
 variable "public_subnet_ids"{
