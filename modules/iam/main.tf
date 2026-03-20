@@ -24,11 +24,10 @@ resource "aws_iam_role_policy_attachment" "s3_full_access" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
-resource "aws_iam_role_policy_attachment" "ec2_read_attach" {
+resource "aws_iam_role_policy_attachment" "secretsmanager_read_attach" {
   role       = aws_iam_role.ec2.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
+  policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
 }
-
 
 // ===== IAM LAMBDA =====
 
