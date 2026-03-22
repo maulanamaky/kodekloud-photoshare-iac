@@ -62,8 +62,8 @@ module "s3" {
 module "alb"{
   source = "./modules/alb"
 
-  alb_name = "photoshare-sg"
-  targetgroup_name = "photoshare-sg"
+  alb_name = "photoshare-alb"
+  targetgroup_name = "photoshare-tg"
   alb_securitygroup_name = "photoshare-sg"
   vpc_id = module.vpc.vpc_id
   public_subnet_ids = module.vpc.public_subnet_ids

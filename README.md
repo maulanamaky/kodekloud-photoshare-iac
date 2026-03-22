@@ -7,5 +7,20 @@
 link (Youtube): https://youtu.be/7eP8U2CnKdA?si=GaDDToWQF452dK7T
 
 
-<p>This is IaC version Project for myself, idk if everyone make it too. and this is not done dawg</p>
+This is my personality project to convert from AWS console clickops to Infrastructure as Code using Terraform.
+
+### How To Run
+
+You must make configuration file "secrets.tfvars" and fill the credentials
+
+```
+database_username = "<VALUE>"
+database_password = "<VALUE>"
+
+pub_key = "<VALUE>"
+```
+
+After that, you can run `terraform apply -var-file=secret.tfvars -auto-approve`
+
+
 
