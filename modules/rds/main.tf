@@ -1,6 +1,6 @@
 // ===== SUBNET =====
 
-resource "aws_db_subnet_group" "db" {
+resource "aws_db_subnet_group" "photoshare_subnet_group_database" {
   name       = var.subnet_group_name
   subnet_ids = var.private_subnet_ids
 
@@ -11,26 +11,26 @@ resource "aws_db_subnet_group" "db" {
 
 // ===== RDS =====
 
-resource "aws_db_instance" "rds_mysql" {
-  identifier     = var.db_config.identifier
-  db_name        = var.db_config.name
-  engine         = "mysql"
-  engine_version = var.db_config.engine_version
-  instance_class = var.db_config.instance_type
-  username       = var.db_username
-  password       = var.db_password
+resource "aws_db_instance" "photoshare_database" {
+  identifier     = var.identifier
+  db_name        = var.database_name
+  engine         = var.engine
+  engine_version = var.engine_version
+  instance_class = var.instance_type
+  username       = var.database_username
+  password       = var.database_password
 
   multi_az       = false
 
   backup_retention_period = 0
-  storage_type            = var.db_config.storage_type
-  allocated_storage       = var.db_config.storage
+  storage_type            = var.storage_type
+  allocated_storage       = var.storage
 
-  db_subnet_group_name    = aws_db_subnet_group.db.name
-  vpc_security_group_ids = [aws_security_group.db_sg.id]
+  db_subnet_group_name    = aws_db_subnet_group.photoshare_subnet_group_database.name
+  vpc_security_group_ids = [aws_security_group.photoshare_rds_securitygroup.id]
   publicly_accessible     = false
 
-  parameter_group_name = var.db_config.param_group_name
+  parameter_group_name = var.parameter_group_name
   skip_final_snapshot  = true
 
   deletion_protection = false

@@ -2,7 +2,7 @@ module "vpc" {
   source = "./modules/vpc"
 
   vpc_name         = "photoshare-vpc"
-  subnet_list      = var.subnet_list
+  subnet_lists      = var.subnet_lists
   igw_name         = "photoshare-igw"
   route_table_name = "public-rt"
 }
@@ -10,49 +10,47 @@ module "vpc" {
 module "iam" {
   source = "./modules/iam"
 
-  ec2_iam = "iam_role_ec2"
-  lambda_iam = "iam_role_lambda"
+  ec2_iam_role_name = "iam_role_ec2"
+  lambda_iam_role_name = "iam_role_lambda"
 }
 
 module "rds" {
   source = "./modules/rds"
 
-  db_config = {
-    name           = "photoshare",
-    identifier     = "photoshare-db",
-    engine_version = "8.4.7",
-    instance_type  = "db.t3.micro",
-    storage        = 20,
-    storage_type   = "gp3",
-    param_group_name = "default.mysql8.4"
-  }
+  database_name = "photoshare"
+  identifier = "photoshare-db"
+  engine = "mysql"
+  engine_version = "8.4.7"
+  instance_type = "db.t3.micro"
+  storage = 20
+  storage_type = "gp3"
+  parameter_group_name = "default.mysql8.4"
 
   private_subnet_ids = module.vpc.private_subnet_ids
   vpc_id             = module.vpc.vpc_id
-  vpc_cidr_block     = module.vpc.vpc_cidr_block
+  cidr_block     = module.vpc.cidr_block
 
-  db_username = var.db_username
-  db_password = var.db_password
+  database_username = var.database_username
+  database_password = var.database_password
 
   subnet_group_name = "photoshare-db-group"
 
-  rds_sg_name = "db-sg"
+  rds_securitygroup_name = "db-sg"
 }
 
-module "secretmanager" {
-  source = "./modules/secretmanager"
+module "secretsmanager" {
+  source = "./modules/secretsmanager"
 
-  sm_name = "photoshare/db/credentials"
-  recovery_window = 0
-  sm_config = {
-    engine = "mysql",
-    host = module.rds.rds_db_address,
-    port = 3306,
-    dbname = module.rds.rds_db_initial
-  }
+  secrets_name = "photoshare/db/credentials"
+  recovery_window_in_days = 0
 
-  db_username = var.db_username
-  db_password = var.db_password
+  database_engine = "mysql"
+  database_host = module.rds.database_address
+  database_port = 3306
+  database_name = module.rds.database_initial
+
+  database_username = var.database_username
+  database_password = var.database_password
 }
 
 module "s3" {
@@ -64,43 +62,53 @@ module "s3" {
 module "alb"{
   source = "./modules/alb"
 
+  alb_name = "photoshare-sg"
+  targetgroup_name = "photoshare-sg"
+  alb_securitygroup_name = "photoshare-sg"
   vpc_id = module.vpc.vpc_id
   public_subnet_ids = module.vpc.public_subnet_ids
-  instance_id = module.ec2.instance_id
+  ec2_instance_id = module.ec2.instance_id
 }
 
 module "ec2" {
   source = "./modules/ec2"
 
-  s3_bucket_name = module.s3.s3_bucket_name
-  sm_name = module.secretmanager.sm_name
-  ec2_role = module.iam.ec2_role
-  alb_sg_id = module.alb.alb_sg_id
+  type = "t3.micro"
+  instance_name = "photoshare-instance"
+
+  bucket_name = module.s3.bucket_name
+  secrets_name = module.secretsmanager.secretsmanager_name
+  ec2_iam_role = module.iam.ec2_iam_role
+  
   vpc_id = module.vpc.vpc_id
+  public_subnet_ids = module.vpc.public_subnet_ids
+
   pub_key = var.pub_key
   key_pair_name = var.key_pair_name
 
-
-  public_subnet_ids = module.vpc.public_subnet_ids
+  ec2_securitygroup_name = "photoshare-web-sg"
+  alb_securitygroup_id = module.alb.alb_securitygroup_id
 }
 
 module "lambda" {
   source = "./modules/lambda"
 
-  s3_bucket_name = module.s3.s3_bucket_name
   function_name = "photoshare-metadata-extractor"
-  s3_bucket_id = module.s3.s3_bucket_id
-  s3_bucket_arn = module.s3.s3_bucket_arn
+  lambda_iam_role = module.iam.lambda_iam_role
+
+  bucket_name = module.s3.bucket_name
+  bucket_id = module.s3.bucket_id
+  bucket_arn = module.s3.bucket_arn
+
   lb_dns_name = module.alb.alb_dns_name
-  lambda_role = module.iam.lambda_role
 }
 
 module "cloudwatch" {
   source = "./modules/cloudwatch"
 
   dashboard_name = "PhotoShare-Monitor"
-  lambda_alarm_name = "PhotoShare-Lambda-Error-Alarm"
 
-  instance_id = module.ec2.instance_id
+  ec2_instance_id = module.ec2.instance_id
   lambda_function_name = module.lambda.lambda_function_name
+  lambda_alarm_name = "PhotoShare-Lambda-Error-Alarm"
 }

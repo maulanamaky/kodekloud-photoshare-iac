@@ -1,20 +1,40 @@
-variable "db_config" {
-  type = object({
-    name           = string,
-    identifier     = string,
-    engine_version = string,
-    instance_type  = string,
-    storage        = number,
-    storage_type   = string,
-    param_group_name = string
-  })
-}
-
-variable "db_username"{
+variable "database_name"{
   type = string
 }
 
-variable "db_password"{
+variable "identifier"{
+  type = string
+}
+
+variable "engine"{
+  type = string
+}
+
+variable "engine_version"{
+  type = string
+}
+
+variable "instance_type"{
+  type = string
+}
+
+variable "storage"{
+  type = number
+}
+
+variable "storage_type"{
+  type = string
+}
+
+variable "parameter_group_name"{
+  type = string
+}
+
+variable "database_username"{
+  type = string
+}
+
+variable "database_password"{
   type = string
 }
 
@@ -24,7 +44,7 @@ variable "subnet_group_name" {
   type = string
 }
 
-variable "rds_sg_name" {
+variable "rds_securitygroup_name" {
   type = string
 }
 
@@ -36,6 +56,6 @@ variable "vpc_id"{
   type = string
 }
 
-variable "vpc_cidr_block"{
+variable "cidr_block"{
   type = string
 }

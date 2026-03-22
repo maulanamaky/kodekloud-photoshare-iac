@@ -1,14 +1,13 @@
-variable "alb_config"{
-    type = map(string)
-    default = {
-        tg_name = "photoshare-tg",
-        alb_name = "photoshare-alb"
-    }
+variable "targetgroup_name"{
+    type = string
 }
 
-variable "alb_sg_name"{
+variable "alb_name"{
     type = string
-    default = "photoshare-sg"
+}
+
+variable "alb_securitygroup_name"{
+    type = string
 }
 
 variable "vpc_id" {
@@ -19,6 +18,6 @@ variable "public_subnet_ids" {
     type = list(string)
 }
 
-variable "instance_id" {
+variable "ec2_instance_id" {
     type = string
 }

@@ -1,4 +1,4 @@
-resource "aws_cloudwatch_dashboard" "metric_dashboard" {
+resource "aws_cloudwatch_dashboard" "photoshare_metric_dashboard" {
   dashboard_name = var.dashboard_name
 
   dashboard_body = jsonencode({
@@ -18,7 +18,7 @@ resource "aws_cloudwatch_dashboard" "metric_dashboard" {
               "AWS/EC2",
               "CPUUtilization",
               "InstanceId",
-              var.instance_id
+              var.ec2_instance_id
             ]
           ]
           period = 300
@@ -54,7 +54,7 @@ resource "aws_cloudwatch_dashboard" "metric_dashboard" {
   })
 }
 
-resource "aws_cloudwatch_metric_alarm" "lambda" {
+resource "aws_cloudwatch_metric_alarm" "photoshare_alarm_metric_lambda" {
   alarm_name                = var.lambda_alarm_name
   comparison_operator       = "GreaterThanThreshold"
   evaluation_periods        = 1

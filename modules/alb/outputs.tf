@@ -3,8 +3,8 @@ output "alb_dns_endpoint" {
     description = "Akses dengan URL berikut dan di port 80"
 }
 
-output "alb_sg_id"{
-    value = aws_security_group.photoshare_alb_sg.id
+output "alb_securitygroup_id"{
+    value = aws_security_group.photoshare_alb_securitygroup.id
 }
 
 output "alb_dns_name" {

@@ -1,4 +1,4 @@
-variable "subnet_list" {
+variable "subnet_lists" {
   type = map(object({
     cidr   = string
     region = string
@@ -8,12 +8,12 @@ variable "subnet_list" {
 
 // === SECRET MANAGER ===
 
-variable "db_username" {
+variable "database_username" {
   type = string
   sensitive = true
 }
 
-variable "db_password" {
+variable "database_password" {
   type = string
   sensitive = true
 }
